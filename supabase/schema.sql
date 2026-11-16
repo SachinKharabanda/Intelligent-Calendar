@@ -1,0 +1,1 @@
+-- Tables: appointments, parse_cache (keyed by request text), simulation_logs. TODO
