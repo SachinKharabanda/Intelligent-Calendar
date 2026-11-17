@@ -5,14 +5,15 @@ A2 project for Intelligent Interactive Systems: an appointment-booking assistant
 Prose word count: ~90
 
 ## Project status
-Scaffold only. Nothing below is implemented yet.
+Implementation in progress
 
 | Part | Status |
 |---|---|
 | Express + EJS app, `GET /`, `GET /api/health` | Implemented (placeholder page only) |
-| `/api/appointments`, `/api/chat` routes | Stubs, return 501 |
+| `/api/appointments` (GET, POST, PUT `/:id`, DELETE `/:id`) | Implemented; validated and error-handled, checked offline against an in-memory fake. NOT yet run against the live Supabase project |
+| `/api/chat` routes | Stubs, return 501 |
 | DeepSeek parser, scoring, Policy K, Policy T | Planned |
-| Supabase server-side client configuration | Implemented; database operations are not connected yet |
+| Supabase server-side client configuration | Implemented; used by `/api/appointments` |
 | Supabase tables and parse cache use | Planned |
 | Simulation harness and results | Planned |
 | User survey | Planned |
