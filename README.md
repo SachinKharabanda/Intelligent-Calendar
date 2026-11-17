@@ -12,19 +12,21 @@ Scaffold only. Nothing below is implemented yet.
 | Express + EJS app, `GET /`, `GET /api/health` | Implemented (placeholder page only) |
 | `/api/appointments`, `/api/chat` routes | Stubs, return 501 |
 | DeepSeek parser, scoring, Policy K, Policy T | Planned |
-| Supabase tables and parse cache | Planned |
+| Supabase server-side client configuration | Implemented; database operations are not connected yet |
+| Supabase tables and parse cache use | Planned |
 | Simulation harness and results | Planned |
 | User survey | Planned |
 | Vercel deployment | Planned (config written, never deployed) |
 
 ## Technology stack
-Express.js (API and EJS-rendered UI), Supabase (Postgres), Vercel (hosting), DeepSeek API (parser only; model name to be recorded here once chosen).
+Express.js (API and EJS-rendered UI), Supabase (Postgres; server-side client configured), Vercel (hosting), DeepSeek API (parser only; model name to be recorded here once chosen).
 
 ## How to run
-Node 26 was used. `npm install`, copy `.env.example` to `.env` and fill in your own keys, then `npm start` (or `npm run dev`) and open http://localhost:3000.
+Node 26 was used. npm install, copy .env.example to .env and fill in your own keys, then npm start (or npm run dev) and open http://localhost:3000.
 
 ## Development record
 To be filled in as work progresses (change, why, check, commit link).
 
 ## AI assistance
 Claude Code was used to generate the initial scaffold (2026-11-16). To be expanded with what was checked or changed.
+Kimi Code CLI drafted the Supabase schema and server-side client; I guided the schema design against my experiment plan, directed the implementation, and reviewed the resulting tables and client setup.
