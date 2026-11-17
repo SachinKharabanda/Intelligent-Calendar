@@ -28,5 +28,5 @@ Node 26 was used. npm install, copy .env.example to .env and fill in your own ke
 To be filled in as work progresses (change, why, check, commit link).
 
 ## AI assistance
-Claude Code was used to generate the initial scaffold (2026-11-16). To be expanded with what was checked or changed.
-Kimi Code CLI drafted the Supabase schema and server-side client; I guided the schema design against my experiment plan, directed the implementation, and reviewed the resulting tables and client setup.
+- Claude Code was used to generate the initial scaffold (2026-11-16). To be expanded with what was checked or changed.
+- Kimi Code CLI drafted the Supabase schema and server-side client; I guided the schema design against my experiment plan, directed the implementation, and reviewed the resulting tables and client setup.
