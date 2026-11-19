@@ -13,7 +13,8 @@ In progress. Not finished: the policies and the experiment are not built yet.
 | Parse cache (Supabase `parse_cache`) | Implemented | Live-checked; see below |
 | Other Supabase tables (`appointments`, `simulation_logs`) | Created | Not used or checked live yet |
 | Chat routes (`/api/chat`) | Stub | Return 501 |
-| Scoring, Policy K, Policy T | Planned | Not started |
+| Hypothesis scorer (`src/scorer.js`) | Implemented | Offline tests only; weights fixed, not yet tried on real requests |
+| Ambiguity detection, Policy K, Policy T | Planned | Not started |
 | Simulation harness and results | Planned | Not started |
 | User survey | Planned | Not started |
 | Vercel deployment | Planned | Config written, never deployed |
@@ -22,7 +23,7 @@ In progress. Not finished: the policies and the experiment are not built yet.
 Express.js (API and EJS-rendered UI), Supabase (Postgres; server-side client configured), Vercel (hosting), DeepSeek API (parser only; model `deepseek-flash`).
 
 ## How to run
-Node 26 was used. npm install, copy .env.example to .env and fill in your own keys, then npm start (or npm run dev) and open http://localhost:3000. `npm test` runs the offline parser tests (no keys or network needed).
+Node 26 was used. npm install, copy .env.example to .env and fill in your own keys, then npm start (or npm run dev) and open http://localhost:3000. `npm test` runs the offline parser and scorer tests (no keys or network needed).
 
 ## Parser configuration
 Set `DEEPSEEK_API_KEY` and `DEEPSEEK_MODEL` in `.env` (see `.env.example`). Accepted model names per the DeepSeek docs (checked 2026-11-17): `deepseek-flash`, `deepseek-v4-pro`. **Model used: `deepseek-flash`** (chosen 2026-11-17 because it is cheaper; the API returns no version string beyond this name, so none is recorded). The model name is part of the cache key, so switching models never reuses old parses. Optional: `DEEPSEEK_BASE_URL` (default `https://api.deepseek.com`) and `PARSER_REFERENCE_DATE` (fixed "today", `YYYY-MM-DD`, so relative dates like "tomorrow" resolve identically in every simulation run; defaults to the current UTC date).
@@ -42,3 +43,8 @@ To be filled in as work progresses (change, why, check, commit link).
     4. Reschedule requests get two extra slots, `new_date` and `new_time`, so the destination is not confused with the appointment being moved. I chose this to make the application more useful, accepting a slightly larger parser.
     5. Model: `deepseek-flash`, chosen because it is cheaper than `deepseek-v4-pro`.
 - Kimi Code CLI (2026-11-17) drafted the Supabase schema and server-side client; I guided the schema design against my experiment plan, directed the implementation, and reviewed the resulting tables and client setup.
+- Claude Code implemented the hypothesis scorer (`src/scorer.js`) and its offline tests (2026-11-19) from my design. To be expanded with what I checked or changed.
+  - Decisions I made on the scorer design:
+    1. `new_date`/`new_time` are never used to rank appointments, because they describe where a reschedule goes, not which appointment is meant. They are only used for missing-destination and vague-time ambiguity.
+    2. Each matched slot adds a fixed integer weight (date 4, time 4, person 3, duration 1; range 0 to 12), and a mismatched slot adds 0. The weights are fixed before any policy is run, and only each policy's threshold is tuned. The range is wide because Policy T's softmax scale is fixed at 1.
+
