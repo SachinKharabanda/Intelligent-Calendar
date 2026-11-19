@@ -1,0 +1,1125 @@
+{
+  "set": "dev",
+  "policy": "ALWAYS",
+  "params": {},
+  "model": "deepseek-flash",
+  "reference_date": "2026-11-23",
+  "summary": {
+    "requests": 30,
+    "parse_failures": 0,
+    "parsed": 30,
+    "not_found": 0,
+    "decided": 30,
+    "asks": 30,
+    "acts": 0,
+    "asks_by_precheck": 3,
+    "confusion": {
+      "tp": 15,
+      "fp": 15,
+      "fn": 0,
+      "tn": 0
+    },
+    "precision": 0.5,
+    "recall": 1,
+    "f1": 0.6666666666666666,
+    "clarification_rate": 1,
+    "questions_per_request": 1,
+    "wrong_actions": 0,
+    "wrong_action_rate": null,
+    "wrong_actions_on_ambiguous": 0,
+    "wrong_actions_on_clear": 0,
+    "ambiguous_by_type": {
+      "MULTI_MATCH": {
+        "n": 5,
+        "asked": 5
+      },
+      "MISSING_SLOT": {
+        "n": 3,
+        "asked": 3
+      },
+      "TIME_EXPR": {
+        "n": 4,
+        "asked": 4
+      },
+      "INTENT": {
+        "n": 2,
+        "asked": 2
+      },
+      "UNDETECTABLE": {
+        "n": 1,
+        "asked": 1
+      }
+    },
+    "parser": {
+      "intent_correct": 27,
+      "intent_checked": 27,
+      "slots_exact": 29,
+      "slots_checked": 30
+    }
+  },
+  "results": [
+    {
+      "id": "D01",
+      "text": "Book a 30 minute meeting with Maria on 2026-11-25 at 11:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-11-25",
+          "time": "11:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Maria",
+          "duration": 30
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Could you tell me a bit more about what you would like to do?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D02",
+      "text": "Please schedule lunch with Sam tomorrow at 12:30",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-11-24",
+          "time": "12:30",
+          "new_date": null,
+          "new_time": null,
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Could you tell me a bit more about what you would like to do?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D03",
+      "text": "Add a dentist check-up on 2026-11-30 at 09:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-11-30",
+          "time": "09:00",
+          "new_date": null,
+          "new_time": null,
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Could you tell me a bit more about what you would like to do?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D04",
+      "text": "Set up a call with Priya on Thursday 26 November at 16:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-11-26",
+          "time": "16:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Priya",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Could you tell me a bit more about what you would like to do?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D05",
+      "text": "Put a 45 minute catch-up with Lee on 2026-12-01 at 10:30 in my calendar",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-12-01",
+          "time": "10:30",
+          "new_date": null,
+          "new_time": null,
+          "person": "Lee",
+          "duration": 45
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Could you tell me a bit more about what you would like to do?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D06",
+      "text": "Cancel my 10:00 meeting with Sam on 2026-11-24",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-24",
+          "time": "10:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 10:00 on Tue 24 Nov with Sam or 15:00 on Tue 24 Nov with Sam?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D07",
+      "text": "Cancel the dentist appointment on 2026-11-26 at 11:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-26",
+          "time": "11:00",
+          "new_date": null,
+          "new_time": null,
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 11:00 on Thu 26 Nov (Dentist) or 17:00 on Thu 26 Nov with Jo?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D08",
+      "text": "Please cancel Jo's meeting on 2026-11-26",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-26",
+          "time": null,
+          "new_date": null,
+          "new_time": null,
+          "person": "Jo",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 17:00 on Thu 26 Nov with Jo or 11:00 on Thu 26 Nov (Dentist)?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D09",
+      "text": "Cancel my 09:00 with Priya on 2026-11-25",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-25",
+          "time": "09:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Priya",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 09:00 on Wed 25 Nov with Priya or 15:00 on Wed 25 Nov with Alex?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D10",
+      "text": "Cancel the 16:00 meeting on Monday 2026-11-23",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-23",
+          "time": "16:00",
+          "new_date": null,
+          "new_time": null,
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Could you tell me a bit more about what you would like to do?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D11",
+      "text": "Move my 10:00 meeting with Alex on 2026-11-27 to 2026-11-28 at 13:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-27",
+          "time": "10:00",
+          "new_date": "2026-11-28",
+          "new_time": "13:00",
+          "person": "Alex",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 10:00 on Fri 27 Nov with Alex or 10:00 on Tue 24 Nov with Sam?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D12",
+      "text": "Reschedule Alex's 15:00 meeting on 2026-11-25 to 2026-11-26 at 16:30",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-25",
+          "time": "15:00",
+          "new_date": "2026-11-26",
+          "new_time": "16:30",
+          "person": "Alex",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 15:00 on Wed 25 Nov with Alex or 15:00 on Tue 24 Nov with Sam?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D13",
+      "text": "Push the 09:00 standup with Priya on 2026-11-25 to 10:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-25",
+          "time": "09:00",
+          "new_date": null,
+          "new_time": "10:00",
+          "person": "Priya",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 09:00 on Wed 25 Nov with Priya or 15:00 on Wed 25 Nov with Alex?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D14",
+      "text": "Move Maria's 16:00 meeting on 2026-11-23 to 2026-11-24 at 16:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-23",
+          "time": "16:00",
+          "new_date": "2026-11-24",
+          "new_time": "16:00",
+          "person": "Maria",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Could you tell me a bit more about what you would like to do?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D15",
+      "text": "Change my dentist appointment on 2026-11-26 at 11:00 to 2026-11-27 at 11:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-26",
+          "time": "11:00",
+          "new_date": "2026-11-27",
+          "new_time": "11:00",
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 11:00 on Thu 26 Nov (Dentist) or 17:00 on Thu 26 Nov with Jo?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D16",
+      "text": "Cancel my 3pm meeting",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": null,
+          "time": "15:00",
+          "new_date": null,
+          "new_time": null,
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "MULTI_MATCH"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 15:00 on Tue 24 Nov with Sam or 15:00 on Wed 25 Nov with Alex?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D17",
+      "text": "Cancel my meeting with Sam",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": null,
+          "time": null,
+          "new_date": null,
+          "new_time": null,
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "MULTI_MATCH"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 10:00 on Tue 24 Nov with Sam or 15:00 on Tue 24 Nov with Sam?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D18",
+      "text": "Move my meeting with Alex to 2026-11-30 at 10:00",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": null,
+          "time": null,
+          "new_date": "2026-11-30",
+          "new_time": "10:00",
+          "person": "Alex",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "MULTI_MATCH"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 15:00 on Wed 25 Nov with Alex or 10:00 on Fri 27 Nov with Alex?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D19",
+      "text": "Cancel Priya's meeting",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": null,
+          "time": null,
+          "new_date": null,
+          "new_time": null,
+          "person": "Priya",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "MULTI_MATCH"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 09:00 on Wed 25 Nov with Priya or 14:00 on Fri 27 Nov with Priya?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D20",
+      "text": "Reschedule my 10:00 meeting to 2026-11-30 at 14:00",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": null,
+          "time": "10:00",
+          "new_date": "2026-11-30",
+          "new_time": "14:00",
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "MULTI_MATCH"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 10:00 on Tue 24 Nov with Sam or 10:00 on Fri 27 Nov with Alex?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D21",
+      "text": "Book a meeting with Sam on 2026-11-30",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MISSING_SLOT"
+      ],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-11-30",
+          "time": null,
+          "new_date": null,
+          "new_time": null,
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "precheck",
+      "fired": [
+        "MISSING_SLOT"
+      ],
+      "policy_result": null,
+      "question": "What time should I book it?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D22",
+      "text": "Schedule a 30 minute call with Maria",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MISSING_SLOT"
+      ],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": null,
+          "time": null,
+          "new_date": null,
+          "new_time": null,
+          "person": "Maria",
+          "duration": 30
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "precheck",
+      "fired": [
+        "MISSING_SLOT"
+      ],
+      "policy_result": null,
+      "question": "What date and time should I book it?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D23",
+      "text": "Reschedule my 17:00 meeting with Jo on 2026-11-26",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MISSING_SLOT"
+      ],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-26",
+          "time": "17:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Jo",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "precheck",
+      "fired": [
+        "MISSING_SLOT"
+      ],
+      "policy_result": null,
+      "question": "When should I move it to?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D24",
+      "text": "Book a meeting with Lee on 2026-12-01 in the afternoon",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "TIME_EXPR"
+      ],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-12-01",
+          "time": "afternoon",
+          "new_date": null,
+          "new_time": null,
+          "person": "Lee",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "TIME_EXPR"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "What time in the afternoon?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D25",
+      "text": "Schedule a call with Alex tomorrow morning",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "TIME_EXPR"
+      ],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-11-24",
+          "time": "morning",
+          "new_date": null,
+          "new_time": null,
+          "person": "Alex",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "TIME_EXPR"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "What time in the morning?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D26",
+      "text": "Move my 17:00 meeting with Jo on 2026-11-26 to 2026-11-27 in the evening",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "TIME_EXPR"
+      ],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-26",
+          "time": "17:00",
+          "new_date": "2026-11-27",
+          "new_time": "evening",
+          "person": "Jo",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "TIME_EXPR"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "What time in the evening?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D27",
+      "text": "Put a dentist check-up on 2026-12-03 in the morning",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "TIME_EXPR"
+      ],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-12-03",
+          "time": "morning",
+          "new_date": null,
+          "new_time": null,
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "TIME_EXPR"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "What time in the morning?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D28",
+      "text": "Cancel my 10:00 meeting with Sam on 2026-11-24 and move it to 2026-11-25 at 10:00",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "INTENT"
+      ],
+      "gt_intent": null,
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-24",
+          "time": "10:00",
+          "new_date": "2026-11-25",
+          "new_time": "10:00",
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": null,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 10:00 on Tue 24 Nov with Sam or 15:00 on Tue 24 Nov with Sam?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D29",
+      "text": "Cancel the 15:00 meeting with Sam on 2026-11-24, or maybe move it to 2026-11-25 at 16:00",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "INTENT"
+      ],
+      "gt_intent": null,
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-24",
+          "time": "15:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": null,
+        "slots": false
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 15:00 on Tue 24 Nov with Sam or 10:00 on Tue 24 Nov with Sam?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D30",
+      "text": "I can't make my 15:00 meeting with Sam on 2026-11-24",
+      "gt_ambiguous": true,
+      "gt_types": [],
+      "gt_intent": null,
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-24",
+          "time": "15:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": null,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "theta": null
+      },
+      "question": "Which one do you mean: 15:00 on Tue 24 Nov with Sam or 10:00 on Tue 24 Nov with Sam?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    }
+  ]
+}

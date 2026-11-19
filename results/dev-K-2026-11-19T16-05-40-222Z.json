@@ -1,0 +1,1672 @@
+{
+  "set": "dev",
+  "policy": "K",
+  "params": {
+    "w": {
+      "low_top": 2,
+      "low_margin": 3,
+      "INTENT": 3,
+      "MULTI_MATCH": 4,
+      "MISSING_SLOT": 5,
+      "TIME_EXPR": 3,
+      "incompleteness": 2,
+      "risk": 1
+    },
+    "theta": 4
+  },
+  "model": "deepseek-flash",
+  "reference_date": "2026-11-23",
+  "summary": {
+    "requests": 30,
+    "parse_failures": 0,
+    "parsed": 30,
+    "not_found": 0,
+    "decided": 30,
+    "asks": 11,
+    "acts": 19,
+    "asks_by_precheck": 3,
+    "confusion": {
+      "tp": 10,
+      "fp": 1,
+      "fn": 5,
+      "tn": 14
+    },
+    "precision": 0.9090909090909091,
+    "recall": 0.6666666666666666,
+    "f1": 0.7692307692307692,
+    "clarification_rate": 0.36666666666666664,
+    "questions_per_request": 0.36666666666666664,
+    "wrong_actions": 5,
+    "wrong_action_rate": 0.2631578947368421,
+    "wrong_actions_on_ambiguous": 5,
+    "wrong_actions_on_clear": 0,
+    "ambiguous_by_type": {
+      "MULTI_MATCH": {
+        "n": 5,
+        "asked": 5
+      },
+      "MISSING_SLOT": {
+        "n": 3,
+        "asked": 3
+      },
+      "TIME_EXPR": {
+        "n": 4,
+        "asked": 2
+      },
+      "INTENT": {
+        "n": 2,
+        "asked": 0
+      },
+      "UNDETECTABLE": {
+        "n": 1,
+        "asked": 0
+      }
+    },
+    "parser": {
+      "intent_correct": 27,
+      "intent_checked": 27,
+      "slots_exact": 29,
+      "slots_checked": 30
+    }
+  },
+  "results": [
+    {
+      "id": "D01",
+      "text": "Book a 30 minute meeting with Maria on 2026-11-25 at 11:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-11-25",
+          "time": "11:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Maria",
+          "duration": 30
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 0,
+        "theta": 4,
+        "features": {
+          "low_top": 0,
+          "low_margin": 0,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 0
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "create",
+          "appointment": {
+            "title": "Meeting with Maria",
+            "person": "Maria",
+            "date": "2026-11-25",
+            "start_time": "11:00",
+            "source": "simulation",
+            "duration_minutes": 30
+          }
+        },
+        "target": {
+          "date": "2026-11-25",
+          "time": "11:00"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D02",
+      "text": "Please schedule lunch with Sam tomorrow at 12:30",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-11-24",
+          "time": "12:30",
+          "new_date": null,
+          "new_time": null,
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 0.41666666666666685,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.08333333333333337,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 0
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "create",
+          "appointment": {
+            "title": "Meeting with Sam",
+            "person": "Sam",
+            "date": "2026-11-24",
+            "start_time": "12:30",
+            "source": "simulation"
+          }
+        },
+        "target": {
+          "date": "2026-11-24",
+          "time": "12:30"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D03",
+      "text": "Add a dentist check-up on 2026-11-30 at 09:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-11-30",
+          "time": "09:00",
+          "new_date": null,
+          "new_time": null,
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 1.6666666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.33333333333333337,
+          "low_margin": 0.33333333333333337,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 0
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "create",
+          "appointment": {
+            "title": "Appointment",
+            "person": null,
+            "date": "2026-11-30",
+            "start_time": "09:00",
+            "source": "simulation"
+          }
+        },
+        "target": {
+          "date": "2026-11-30",
+          "time": "09:00"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D04",
+      "text": "Set up a call with Priya on Thursday 26 November at 16:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-11-26",
+          "time": "16:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Priya",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 0.41666666666666685,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.08333333333333337,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 0
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "create",
+          "appointment": {
+            "title": "Meeting with Priya",
+            "person": "Priya",
+            "date": "2026-11-26",
+            "start_time": "16:00",
+            "source": "simulation"
+          }
+        },
+        "target": {
+          "date": "2026-11-26",
+          "time": "16:00"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D05",
+      "text": "Put a 45 minute catch-up with Lee on 2026-12-01 at 10:30 in my calendar",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-12-01",
+          "time": "10:30",
+          "new_date": null,
+          "new_time": null,
+          "person": "Lee",
+          "duration": 45
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 0,
+        "theta": 4,
+        "features": {
+          "low_top": 0,
+          "low_margin": 0,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 0
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "create",
+          "appointment": {
+            "title": "Meeting with Lee",
+            "person": "Lee",
+            "date": "2026-12-01",
+            "start_time": "10:30",
+            "source": "simulation",
+            "duration_minutes": 45
+          }
+        },
+        "target": {
+          "date": "2026-12-01",
+          "time": "10:30"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D06",
+      "text": "Cancel my 10:00 meeting with Sam on 2026-11-24",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-24",
+          "time": "10:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 3.166666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.6666666666666667,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 1
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "cancel",
+          "appointment_id": "sam-tue-1000"
+        },
+        "target": {
+          "id": "sam-tue-1000"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D07",
+      "text": "Cancel the dentist appointment on 2026-11-26 at 11:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-26",
+          "time": "11:00",
+          "new_date": null,
+          "new_time": null,
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 3.666666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.33333333333333337,
+          "low_margin": 0.6666666666666667,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 1
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "cancel",
+          "appointment_id": "dentist-thu-1100"
+        },
+        "target": {
+          "id": "dentist-thu-1100"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D08",
+      "text": "Please cancel Jo's meeting on 2026-11-26",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-26",
+          "time": null,
+          "new_date": null,
+          "new_time": null,
+          "person": "Jo",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "ask",
+        "score": 4.083333333333333,
+        "theta": 4,
+        "features": {
+          "low_top": 0.41666666666666663,
+          "low_margin": 0.75,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 1
+        }
+      },
+      "question": "Which one do you mean: 17:00 on Thu 26 Nov with Jo or 11:00 on Thu 26 Nov (Dentist)?",
+      "action": null,
+      "clarify_correct": false,
+      "wrong_action": null
+    },
+    {
+      "id": "D09",
+      "text": "Cancel my 09:00 with Priya on 2026-11-25",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-25",
+          "time": "09:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Priya",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 2.416666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.41666666666666663,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 1
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "cancel",
+          "appointment_id": "priya-wed-0900"
+        },
+        "target": {
+          "id": "priya-wed-0900"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D10",
+      "text": "Cancel the 16:00 meeting on Monday 2026-11-23",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-23",
+          "time": "16:00",
+          "new_date": null,
+          "new_time": null,
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 2.666666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.33333333333333337,
+          "low_margin": 0.33333333333333337,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 1
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "cancel",
+          "appointment_id": "maria-mon-1600"
+        },
+        "target": {
+          "id": "maria-mon-1600"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D11",
+      "text": "Move my 10:00 meeting with Alex on 2026-11-27 to 2026-11-28 at 13:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-27",
+          "time": "10:00",
+          "new_date": "2026-11-28",
+          "new_time": "13:00",
+          "person": "Alex",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 1.9166666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.41666666666666663,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 0.5
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "reschedule",
+          "appointment_id": "alex-fri-1000",
+          "changes": {
+            "date": "2026-11-28",
+            "start_time": "13:00"
+          }
+        },
+        "target": {
+          "id": "alex-fri-1000",
+          "date": "2026-11-28",
+          "time": "13:00"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D12",
+      "text": "Reschedule Alex's 15:00 meeting on 2026-11-25 to 2026-11-26 at 16:30",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-25",
+          "time": "15:00",
+          "new_date": "2026-11-26",
+          "new_time": "16:30",
+          "person": "Alex",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 1.9166666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.41666666666666663,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 0.5
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "reschedule",
+          "appointment_id": "alex-wed-1500",
+          "changes": {
+            "date": "2026-11-26",
+            "start_time": "16:30"
+          }
+        },
+        "target": {
+          "id": "alex-wed-1500",
+          "date": "2026-11-26",
+          "time": "16:30"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D13",
+      "text": "Push the 09:00 standup with Priya on 2026-11-25 to 10:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-25",
+          "time": "09:00",
+          "new_date": null,
+          "new_time": "10:00",
+          "person": "Priya",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 1.9166666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.41666666666666663,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 0.5
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "reschedule",
+          "appointment_id": "priya-wed-0900",
+          "changes": {
+            "start_time": "10:00"
+          }
+        },
+        "target": {
+          "id": "priya-wed-0900",
+          "date": "2026-11-25",
+          "time": "10:00"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D14",
+      "text": "Move Maria's 16:00 meeting on 2026-11-23 to 2026-11-24 at 16:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-23",
+          "time": "16:00",
+          "new_date": "2026-11-24",
+          "new_time": "16:00",
+          "person": "Maria",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 0.9166666666666669,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.08333333333333337,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 0.5
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "reschedule",
+          "appointment_id": "maria-mon-1600",
+          "changes": {
+            "date": "2026-11-24",
+            "start_time": "16:00"
+          }
+        },
+        "target": {
+          "id": "maria-mon-1600",
+          "date": "2026-11-24",
+          "time": "16:00"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D15",
+      "text": "Change my dentist appointment on 2026-11-26 at 11:00 to 2026-11-27 at 11:00",
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-26",
+          "time": "11:00",
+          "new_date": "2026-11-27",
+          "new_time": "11:00",
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 3.166666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.33333333333333337,
+          "low_margin": 0.6666666666666667,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 0.5
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "reschedule",
+          "appointment_id": "dentist-thu-1100",
+          "changes": {
+            "date": "2026-11-27",
+            "start_time": "11:00"
+          }
+        },
+        "target": {
+          "id": "dentist-thu-1100",
+          "date": "2026-11-27",
+          "time": "11:00"
+        }
+      },
+      "clarify_correct": true,
+      "wrong_action": false
+    },
+    {
+      "id": "D16",
+      "text": "Cancel my 3pm meeting",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": null,
+          "time": "15:00",
+          "new_date": null,
+          "new_time": null,
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "MULTI_MATCH"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "score": 9.333333333333334,
+        "theta": 4,
+        "features": {
+          "low_top": 0.6666666666666667,
+          "low_margin": 1,
+          "INTENT": 0,
+          "MULTI_MATCH": 1,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 1
+        }
+      },
+      "question": "Which one do you mean: 15:00 on Tue 24 Nov with Sam or 15:00 on Wed 25 Nov with Alex?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D17",
+      "text": "Cancel my meeting with Sam",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": null,
+          "time": null,
+          "new_date": null,
+          "new_time": null,
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "MULTI_MATCH"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "score": 9.5,
+        "theta": 4,
+        "features": {
+          "low_top": 0.75,
+          "low_margin": 1,
+          "INTENT": 0,
+          "MULTI_MATCH": 1,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 1
+        }
+      },
+      "question": "Which one do you mean: 10:00 on Tue 24 Nov with Sam or 15:00 on Tue 24 Nov with Sam?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D18",
+      "text": "Move my meeting with Alex to 2026-11-30 at 10:00",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": null,
+          "time": null,
+          "new_date": "2026-11-30",
+          "new_time": "10:00",
+          "person": "Alex",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "MULTI_MATCH"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "score": 9,
+        "theta": 4,
+        "features": {
+          "low_top": 0.75,
+          "low_margin": 1,
+          "INTENT": 0,
+          "MULTI_MATCH": 1,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 0.5
+        }
+      },
+      "question": "Which one do you mean: 15:00 on Wed 25 Nov with Alex or 10:00 on Fri 27 Nov with Alex?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D19",
+      "text": "Cancel Priya's meeting",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_intent": "cancel",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": null,
+          "time": null,
+          "new_date": null,
+          "new_time": null,
+          "person": "Priya",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "MULTI_MATCH"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "score": 9.5,
+        "theta": 4,
+        "features": {
+          "low_top": 0.75,
+          "low_margin": 1,
+          "INTENT": 0,
+          "MULTI_MATCH": 1,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 1
+        }
+      },
+      "question": "Which one do you mean: 09:00 on Wed 25 Nov with Priya or 14:00 on Fri 27 Nov with Priya?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D20",
+      "text": "Reschedule my 10:00 meeting to 2026-11-30 at 14:00",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": null,
+          "time": "10:00",
+          "new_date": "2026-11-30",
+          "new_time": "14:00",
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "MULTI_MATCH"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "score": 8.833333333333334,
+        "theta": 4,
+        "features": {
+          "low_top": 0.6666666666666667,
+          "low_margin": 1,
+          "INTENT": 0,
+          "MULTI_MATCH": 1,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 0.5
+        }
+      },
+      "question": "Which one do you mean: 10:00 on Tue 24 Nov with Sam or 10:00 on Fri 27 Nov with Alex?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D21",
+      "text": "Book a meeting with Sam on 2026-11-30",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MISSING_SLOT"
+      ],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-11-30",
+          "time": null,
+          "new_date": null,
+          "new_time": null,
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "precheck",
+      "fired": [
+        "MISSING_SLOT"
+      ],
+      "policy_result": null,
+      "question": "What time should I book it?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D22",
+      "text": "Schedule a 30 minute call with Maria",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MISSING_SLOT"
+      ],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": null,
+          "time": null,
+          "new_date": null,
+          "new_time": null,
+          "person": "Maria",
+          "duration": 30
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "precheck",
+      "fired": [
+        "MISSING_SLOT"
+      ],
+      "policy_result": null,
+      "question": "What date and time should I book it?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D23",
+      "text": "Reschedule my 17:00 meeting with Jo on 2026-11-26",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MISSING_SLOT"
+      ],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-26",
+          "time": "17:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Jo",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "precheck",
+      "fired": [
+        "MISSING_SLOT"
+      ],
+      "policy_result": null,
+      "question": "When should I move it to?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D24",
+      "text": "Book a meeting with Lee on 2026-12-01 in the afternoon",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "TIME_EXPR"
+      ],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-12-01",
+          "time": "afternoon",
+          "new_date": null,
+          "new_time": null,
+          "person": "Lee",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [
+        "TIME_EXPR"
+      ],
+      "policy_result": {
+        "decision": "act",
+        "score": 3.916666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.08333333333333337,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 1,
+          "incompleteness": 0.25,
+          "risk": 0
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "create",
+          "appointment": {
+            "title": "Meeting with Lee",
+            "person": "Lee",
+            "date": "2026-12-01",
+            "start_time": "14:00",
+            "source": "simulation"
+          }
+        },
+        "target": {
+          "date": "2026-12-01",
+          "time": "14:00"
+        }
+      },
+      "clarify_correct": false,
+      "wrong_action": true
+    },
+    {
+      "id": "D25",
+      "text": "Schedule a call with Alex tomorrow morning",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "TIME_EXPR"
+      ],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-11-24",
+          "time": "morning",
+          "new_date": null,
+          "new_time": null,
+          "person": "Alex",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [
+        "TIME_EXPR"
+      ],
+      "policy_result": {
+        "decision": "act",
+        "score": 3.916666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.08333333333333337,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 1,
+          "incompleteness": 0.25,
+          "risk": 0
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "create",
+          "appointment": {
+            "title": "Meeting with Alex",
+            "person": "Alex",
+            "date": "2026-11-24",
+            "start_time": "09:00",
+            "source": "simulation"
+          }
+        },
+        "target": {
+          "date": "2026-11-24",
+          "time": "09:00"
+        }
+      },
+      "clarify_correct": false,
+      "wrong_action": true
+    },
+    {
+      "id": "D26",
+      "text": "Move my 17:00 meeting with Jo on 2026-11-26 to 2026-11-27 in the evening",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "TIME_EXPR"
+      ],
+      "gt_intent": "reschedule",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-26",
+          "time": "17:00",
+          "new_date": "2026-11-27",
+          "new_time": "evening",
+          "person": "Jo",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "TIME_EXPR"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "score": 4.916666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.41666666666666663,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 1,
+          "incompleteness": 0,
+          "risk": 0.5
+        }
+      },
+      "question": "What time in the evening?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D27",
+      "text": "Put a dentist check-up on 2026-12-03 in the morning",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "TIME_EXPR"
+      ],
+      "gt_intent": "create",
+      "parse_ok": true,
+      "parsed": {
+        "intent": "create",
+        "slots": {
+          "date": "2026-12-03",
+          "time": "morning",
+          "new_date": null,
+          "new_time": null,
+          "person": null,
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": true,
+        "slots": true
+      },
+      "decision": "ask",
+      "by": "policy",
+      "fired": [
+        "TIME_EXPR"
+      ],
+      "policy_result": {
+        "decision": "ask",
+        "score": 5.166666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.33333333333333337,
+          "low_margin": 0.33333333333333337,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 1,
+          "incompleteness": 0.25,
+          "risk": 0
+        }
+      },
+      "question": "What time in the morning?",
+      "action": null,
+      "clarify_correct": true,
+      "wrong_action": null
+    },
+    {
+      "id": "D28",
+      "text": "Cancel my 10:00 meeting with Sam on 2026-11-24 and move it to 2026-11-25 at 10:00",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "INTENT"
+      ],
+      "gt_intent": null,
+      "parse_ok": true,
+      "parsed": {
+        "intent": "reschedule",
+        "slots": {
+          "date": "2026-11-24",
+          "time": "10:00",
+          "new_date": "2026-11-25",
+          "new_time": "10:00",
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": null,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 2.666666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.6666666666666667,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 0.5
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "reschedule",
+          "appointment_id": "sam-tue-1000",
+          "changes": {
+            "date": "2026-11-25",
+            "start_time": "10:00"
+          }
+        },
+        "target": {
+          "id": "sam-tue-1000",
+          "date": "2026-11-25",
+          "time": "10:00"
+        }
+      },
+      "clarify_correct": false,
+      "wrong_action": true
+    },
+    {
+      "id": "D29",
+      "text": "Cancel the 15:00 meeting with Sam on 2026-11-24, or maybe move it to 2026-11-25 at 16:00",
+      "gt_ambiguous": true,
+      "gt_types": [
+        "INTENT"
+      ],
+      "gt_intent": null,
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-24",
+          "time": "15:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": null,
+        "slots": false
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 3.166666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.6666666666666667,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 1
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "cancel",
+          "appointment_id": "sam-tue-1500"
+        },
+        "target": {
+          "id": "sam-tue-1500"
+        }
+      },
+      "clarify_correct": false,
+      "wrong_action": true
+    },
+    {
+      "id": "D30",
+      "text": "I can't make my 15:00 meeting with Sam on 2026-11-24",
+      "gt_ambiguous": true,
+      "gt_types": [],
+      "gt_intent": null,
+      "parse_ok": true,
+      "parsed": {
+        "intent": "cancel",
+        "slots": {
+          "date": "2026-11-24",
+          "time": "15:00",
+          "new_date": null,
+          "new_time": null,
+          "person": "Sam",
+          "duration": null
+        }
+      },
+      "parse_correct": {
+        "intent": null,
+        "slots": true
+      },
+      "decision": "act",
+      "by": "policy",
+      "fired": [],
+      "policy_result": {
+        "decision": "act",
+        "score": 3.166666666666667,
+        "theta": 4,
+        "features": {
+          "low_top": 0.08333333333333337,
+          "low_margin": 0.6666666666666667,
+          "INTENT": 0,
+          "MULTI_MATCH": 0,
+          "MISSING_SLOT": 0,
+          "TIME_EXPR": 0,
+          "incompleteness": 0,
+          "risk": 1
+        }
+      },
+      "question": null,
+      "action": {
+        "plan": {
+          "type": "cancel",
+          "appointment_id": "sam-tue-1500"
+        },
+        "target": {
+          "id": "sam-tue-1500"
+        }
+      },
+      "clarify_correct": false,
+      "wrong_action": true
+    }
+  ]
+}
