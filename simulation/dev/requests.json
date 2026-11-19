@@ -1,0 +1,562 @@
+{
+  "name": "dev",
+  "reviewed_by_student": true,
+  "_status": "DRAFT written by Claude Code 2026-11-19 for the student to review. Check every text and label, fix anything wrong, then set reviewed_by_student to true and COMMIT THIS FILE BEFORE any policy run or results file. Never relabel after seeing results.",
+  "description": "Dev set (30): 15 clear (5 create, 5 cancel, 5 reschedule) + 15 ambiguous (MULTI_MATCH 5, MISSING_SLOT 3, TIME_EXPR 4, INTENT 2, UNDETECTABLE 1). Used to tune each policy once.",
+  "_labels": "gt_intent: correct intent, or null when the text has no single correct intent (INTENT and UNDETECTABLE cases). gt_slots: what the parser should return (absent = null). gt_ambiguous: should the system ask? gt_types: which ambiguity type(s) make it ambiguous (empty + gt_ambiguous true = UNDETECTABLE by the slot-based detector, kept on purpose). gt_target: correct end state when acting (create {date,time}; cancel {id}; reschedule {id,date,time}), null when ambiguous. Evaluated against simulation/fixture.json with the fixed reference date.",
+  "requests": [
+    {
+      "id": "D01",
+      "text": "Book a 30 minute meeting with Maria on 2026-11-25 at 11:00",
+      "gt_intent": "create",
+      "gt_slots": {
+        "date": "2026-11-25",
+        "time": "11:00",
+        "new_date": null,
+        "new_time": null,
+        "person": "Maria",
+        "duration": 30
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "date": "2026-11-25",
+        "time": "11:00"
+      }
+    },
+    {
+      "id": "D02",
+      "text": "Please schedule lunch with Sam tomorrow at 12:30",
+      "gt_intent": "create",
+      "gt_slots": {
+        "date": "2026-11-24",
+        "time": "12:30",
+        "new_date": null,
+        "new_time": null,
+        "person": "Sam",
+        "duration": null
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "date": "2026-11-24",
+        "time": "12:30"
+      }
+    },
+    {
+      "id": "D03",
+      "text": "Add a dentist check-up on 2026-11-30 at 09:00",
+      "gt_intent": "create",
+      "gt_slots": {
+        "date": "2026-11-30",
+        "time": "09:00",
+        "new_date": null,
+        "new_time": null,
+        "person": null,
+        "duration": null
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "date": "2026-11-30",
+        "time": "09:00"
+      }
+    },
+    {
+      "id": "D04",
+      "text": "Set up a call with Priya on Thursday 26 November at 16:00",
+      "gt_intent": "create",
+      "gt_slots": {
+        "date": "2026-11-26",
+        "time": "16:00",
+        "new_date": null,
+        "new_time": null,
+        "person": "Priya",
+        "duration": null
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "date": "2026-11-26",
+        "time": "16:00"
+      }
+    },
+    {
+      "id": "D05",
+      "text": "Put a 45 minute catch-up with Lee on 2026-12-01 at 10:30 in my calendar",
+      "gt_intent": "create",
+      "gt_slots": {
+        "date": "2026-12-01",
+        "time": "10:30",
+        "new_date": null,
+        "new_time": null,
+        "person": "Lee",
+        "duration": 45
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "date": "2026-12-01",
+        "time": "10:30"
+      }
+    },
+    {
+      "id": "D06",
+      "text": "Cancel my 10:00 meeting with Sam on 2026-11-24",
+      "gt_intent": "cancel",
+      "gt_slots": {
+        "date": "2026-11-24",
+        "time": "10:00",
+        "new_date": null,
+        "new_time": null,
+        "person": "Sam",
+        "duration": null
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "id": "sam-tue-1000"
+      }
+    },
+    {
+      "id": "D07",
+      "text": "Cancel the dentist appointment on 2026-11-26 at 11:00",
+      "gt_intent": "cancel",
+      "gt_slots": {
+        "date": "2026-11-26",
+        "time": "11:00",
+        "new_date": null,
+        "new_time": null,
+        "person": null,
+        "duration": null
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "id": "dentist-thu-1100"
+      }
+    },
+    {
+      "id": "D08",
+      "text": "Please cancel Jo's meeting on 2026-11-26",
+      "gt_intent": "cancel",
+      "gt_slots": {
+        "date": "2026-11-26",
+        "time": null,
+        "new_date": null,
+        "new_time": null,
+        "person": "Jo",
+        "duration": null
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "id": "jo-thu-1700"
+      }
+    },
+    {
+      "id": "D09",
+      "text": "Cancel my 09:00 with Priya on 2026-11-25",
+      "gt_intent": "cancel",
+      "gt_slots": {
+        "date": "2026-11-25",
+        "time": "09:00",
+        "new_date": null,
+        "new_time": null,
+        "person": "Priya",
+        "duration": null
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "id": "priya-wed-0900"
+      }
+    },
+    {
+      "id": "D10",
+      "text": "Cancel the 16:00 meeting on Monday 2026-11-23",
+      "gt_intent": "cancel",
+      "gt_slots": {
+        "date": "2026-11-23",
+        "time": "16:00",
+        "new_date": null,
+        "new_time": null,
+        "person": null,
+        "duration": null
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "id": "maria-mon-1600"
+      }
+    },
+    {
+      "id": "D11",
+      "text": "Move my 10:00 meeting with Alex on 2026-11-27 to 2026-11-28 at 13:00",
+      "gt_intent": "reschedule",
+      "gt_slots": {
+        "date": "2026-11-27",
+        "time": "10:00",
+        "new_date": "2026-11-28",
+        "new_time": "13:00",
+        "person": "Alex",
+        "duration": null
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "id": "alex-fri-1000",
+        "date": "2026-11-28",
+        "time": "13:00"
+      }
+    },
+    {
+      "id": "D12",
+      "text": "Reschedule Alex's 15:00 meeting on 2026-11-25 to 2026-11-26 at 16:30",
+      "gt_intent": "reschedule",
+      "gt_slots": {
+        "date": "2026-11-25",
+        "time": "15:00",
+        "new_date": "2026-11-26",
+        "new_time": "16:30",
+        "person": "Alex",
+        "duration": null
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "id": "alex-wed-1500",
+        "date": "2026-11-26",
+        "time": "16:30"
+      }
+    },
+    {
+      "id": "D13",
+      "text": "Push the 09:00 standup with Priya on 2026-11-25 to 10:00",
+      "gt_intent": "reschedule",
+      "gt_slots": {
+        "date": "2026-11-25",
+        "time": "09:00",
+        "new_date": null,
+        "new_time": "10:00",
+        "person": "Priya",
+        "duration": null
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "id": "priya-wed-0900",
+        "date": "2026-11-25",
+        "time": "10:00"
+      }
+    },
+    {
+      "id": "D14",
+      "text": "Move Maria's 16:00 meeting on 2026-11-23 to 2026-11-24 at 16:00",
+      "gt_intent": "reschedule",
+      "gt_slots": {
+        "date": "2026-11-23",
+        "time": "16:00",
+        "new_date": "2026-11-24",
+        "new_time": "16:00",
+        "person": "Maria",
+        "duration": null
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "id": "maria-mon-1600",
+        "date": "2026-11-24",
+        "time": "16:00"
+      }
+    },
+    {
+      "id": "D15",
+      "text": "Change my dentist appointment on 2026-11-26 at 11:00 to 2026-11-27 at 11:00",
+      "gt_intent": "reschedule",
+      "gt_slots": {
+        "date": "2026-11-26",
+        "time": "11:00",
+        "new_date": "2026-11-27",
+        "new_time": "11:00",
+        "person": null,
+        "duration": null
+      },
+      "gt_ambiguous": false,
+      "gt_types": [],
+      "gt_target": {
+        "id": "dentist-thu-1100",
+        "date": "2026-11-27",
+        "time": "11:00"
+      }
+    },
+    {
+      "id": "D16",
+      "text": "Cancel my 3pm meeting",
+      "gt_intent": "cancel",
+      "gt_slots": {
+        "date": null,
+        "time": "15:00",
+        "new_date": null,
+        "new_time": null,
+        "person": null,
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D17",
+      "text": "Cancel my meeting with Sam",
+      "gt_intent": "cancel",
+      "gt_slots": {
+        "date": null,
+        "time": null,
+        "new_date": null,
+        "new_time": null,
+        "person": "Sam",
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D18",
+      "text": "Move my meeting with Alex to 2026-11-30 at 10:00",
+      "gt_intent": "reschedule",
+      "gt_slots": {
+        "date": null,
+        "time": null,
+        "new_date": "2026-11-30",
+        "new_time": "10:00",
+        "person": "Alex",
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D19",
+      "text": "Cancel Priya's meeting",
+      "gt_intent": "cancel",
+      "gt_slots": {
+        "date": null,
+        "time": null,
+        "new_date": null,
+        "new_time": null,
+        "person": "Priya",
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D20",
+      "text": "Reschedule my 10:00 meeting to 2026-11-30 at 14:00",
+      "gt_intent": "reschedule",
+      "gt_slots": {
+        "date": null,
+        "time": "10:00",
+        "new_date": "2026-11-30",
+        "new_time": "14:00",
+        "person": null,
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MULTI_MATCH"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D21",
+      "text": "Book a meeting with Sam on 2026-11-30",
+      "gt_intent": "create",
+      "gt_slots": {
+        "date": "2026-11-30",
+        "time": null,
+        "new_date": null,
+        "new_time": null,
+        "person": "Sam",
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MISSING_SLOT"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D22",
+      "text": "Schedule a 30 minute call with Maria",
+      "gt_intent": "create",
+      "gt_slots": {
+        "date": null,
+        "time": null,
+        "new_date": null,
+        "new_time": null,
+        "person": "Maria",
+        "duration": 30
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MISSING_SLOT"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D23",
+      "text": "Reschedule my 17:00 meeting with Jo on 2026-11-26",
+      "gt_intent": "reschedule",
+      "gt_slots": {
+        "date": "2026-11-26",
+        "time": "17:00",
+        "new_date": null,
+        "new_time": null,
+        "person": "Jo",
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "MISSING_SLOT"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D24",
+      "text": "Book a meeting with Lee on 2026-12-01 in the afternoon",
+      "gt_intent": "create",
+      "gt_slots": {
+        "date": "2026-12-01",
+        "time": "afternoon",
+        "new_date": null,
+        "new_time": null,
+        "person": "Lee",
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "TIME_EXPR"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D25",
+      "text": "Schedule a call with Alex tomorrow morning",
+      "gt_intent": "create",
+      "gt_slots": {
+        "date": "2026-11-24",
+        "time": "morning",
+        "new_date": null,
+        "new_time": null,
+        "person": "Alex",
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "TIME_EXPR"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D26",
+      "text": "Move my 17:00 meeting with Jo on 2026-11-26 to 2026-11-27 in the evening",
+      "gt_intent": "reschedule",
+      "gt_slots": {
+        "date": "2026-11-26",
+        "time": "17:00",
+        "new_date": "2026-11-27",
+        "new_time": "evening",
+        "person": "Jo",
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "TIME_EXPR"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D27",
+      "text": "Put a dentist check-up on 2026-12-03 in the morning",
+      "gt_intent": "create",
+      "gt_slots": {
+        "date": "2026-12-03",
+        "time": "morning",
+        "new_date": null,
+        "new_time": null,
+        "person": null,
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "TIME_EXPR"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D28",
+      "text": "Cancel my 10:00 meeting with Sam on 2026-11-24 and move it to 2026-11-25 at 10:00",
+      "gt_intent": null,
+      "gt_slots": {
+        "date": "2026-11-24",
+        "time": "10:00",
+        "new_date": "2026-11-25",
+        "new_time": "10:00",
+        "person": "Sam",
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "INTENT"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D29",
+      "text": "Cancel the 15:00 meeting with Sam on 2026-11-24, or maybe move it to 2026-11-25 at 16:00",
+      "gt_intent": null,
+      "gt_slots": {
+        "date": "2026-11-24",
+        "time": "15:00",
+        "new_date": "2026-11-25",
+        "new_time": "16:00",
+        "person": "Sam",
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [
+        "INTENT"
+      ],
+      "gt_target": null
+    },
+    {
+      "id": "D30",
+      "text": "I can't make my 15:00 meeting with Sam on 2026-11-24",
+      "gt_intent": null,
+      "gt_slots": {
+        "date": "2026-11-24",
+        "time": "15:00",
+        "new_date": null,
+        "new_time": null,
+        "person": "Sam",
+        "duration": null
+      },
+      "gt_ambiguous": true,
+      "gt_types": [],
+      "gt_target": null
+    }
+  ]
+}

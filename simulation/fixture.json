@@ -1,0 +1,86 @@
+{
+  "_note": "Seed calendar for BOTH the dev and test sets. Read-only: each request is evaluated against this same calendar; nothing is mutated. Reference date (fixed \"today\") is a Monday.",
+  "reference_date": "2026-11-23",
+  "appointments": [
+    {
+      "id": "sam-tue-1000",
+      "title": "Project sync",
+      "person": "Sam",
+      "date": "2026-11-24",
+      "start_time": "10:00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "sam-tue-1500",
+      "title": "Design review",
+      "person": "Sam",
+      "date": "2026-11-24",
+      "start_time": "15:00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "alex-wed-1500",
+      "title": "Budget check-in",
+      "person": "Alex",
+      "date": "2026-11-25",
+      "start_time": "15:00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "priya-wed-0900",
+      "title": "Standup",
+      "person": "Priya",
+      "date": "2026-11-25",
+      "start_time": "09:00:00",
+      "duration_minutes": 30
+    },
+    {
+      "id": "dentist-thu-1100",
+      "title": "Dentist",
+      "person": null,
+      "date": "2026-11-26",
+      "start_time": "11:00:00",
+      "duration_minutes": 45
+    },
+    {
+      "id": "jo-thu-1700",
+      "title": "Dinner planning",
+      "person": "Jo",
+      "date": "2026-11-26",
+      "start_time": "17:00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "priya-fri-1400",
+      "title": "Retro",
+      "person": "Priya",
+      "date": "2026-11-27",
+      "start_time": "14:00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "alex-fri-1000",
+      "title": "Contract call",
+      "person": "Alex",
+      "date": "2026-11-27",
+      "start_time": "10:00:00",
+      "duration_minutes": 30
+    },
+    {
+      "id": "maria-mon-1600",
+      "title": "Mentoring",
+      "person": "Maria",
+      "date": "2026-11-23",
+      "start_time": "16:00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "lee-fri-1700",
+      "title": "Farewell drinks",
+      "person": "Lee",
+      "date": "2026-11-27",
+      "start_time": "17:00:00",
+      "duration_minutes": 60
+    }
+  ]
+}
