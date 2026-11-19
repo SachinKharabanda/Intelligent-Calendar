@@ -13,7 +13,9 @@
 //     softmax (scale fixed at 1) gives a usable spread. Weights are fixed BEFORE any
 //     policy is run; only each policy's threshold is tuned.
 //
-// Agent's choices, still to be confirmed by the student (see docs/ai-log.md):
+// Agent's choices (a)-(e). Reviewed 2026-11-19 against what box 3 (src/ambiguity.js)
+// needs, with the student delegating the call to the agent: all kept unchanged
+// (see docs/ai-log.md). (c) leaves Policy T's entropy at 0 for create, still open.
 //  - cancel/reschedule candidates are only the appointments that match at least one
 //    given slot (score > 0); the rest are dropped so they do not dilute T's softmax.
 //  - a vague time ("morning" < 12:00, "afternoon" 12:00-16:59, "evening" >= 17:00)
