@@ -30,11 +30,13 @@ create index if not exists appointments_person_idx on public.appointments (perso
 create index if not exists appointments_date_idx   on public.appointments (date);
 
 -- --------------------------------------------------------------------------
--- 2. parse_cache -- one row per unique (request text, model).
+-- 2. parse_cache -- one row per unique (request text, model, reference date).
 --    Replay guarantee: a cached row means no new DeepSeek call, so simulation
 --    runs replay identically at zero cost. Lives in Supabase, not on disk,
 --    because Vercel's filesystem is ephemeral. Keyed by model as well as text
---    so a model change never silently reuses stale parses.
+--    so a model change never silently reuses stale parses. The reference date (the "today"
+--    the request was parsed against) is also part of the key, so a cached "tomorrow" is
+--    never reused on another day (added 2026-11-20; see supabase/migrations/).
 -- --------------------------------------------------------------------------
 create table if not exists public.parse_cache (
   request_text text not null,
@@ -42,8 +44,9 @@ create table if not exists public.parse_cache (
   parsed       jsonb,                      -- {intent, slots:{date,time,person,duration}}; null on failure
   error        text,                       -- set on blank/invalid-JSON responses; cached so replays
                                            -- reproduce the same failure (counted as a parse error)
+  reference_date date not null,            -- the "today" used to resolve relative dates
   created_at   timestamptz not null default now(),
-  primary key (request_text, model)
+  primary key (request_text, model, reference_date)
 );
 
 -- --------------------------------------------------------------------------

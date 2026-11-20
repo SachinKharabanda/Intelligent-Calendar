@@ -5,7 +5,9 @@
 // scoring and never decides whether to ask or act; a failure is returned as
 // data ({ ok: false }) and must never be turned into a booking action.
 //
-// Cache: parse_cache in Supabase, keyed by (request_text, model). A hit means
+// Cache: parse_cache in Supabase, keyed by (request_text, model, reference_date). The
+// reference date is the "today" the request was parsed against, so a cached "tomorrow"
+// is never reused on a different day (2026-11-20, student's decision). A hit means
 // no DeepSeek call. Content failures (blank / invalid JSON / invalid fields)
 // are cached too, so replays reproduce the same parse error. Transient API
 // errors are NOT cached (a replay should be able to succeed).
@@ -153,24 +155,25 @@ function createParser(options) {
     return i === -1 ? { code: stored, detail: null } : { code: stored.slice(0, i), detail: stored.slice(i + 2) };
   }
 
-  async function readCache(text) {
+  async function readCache(text, referenceDate) {
     var res = await supabase
       .from(CACHE_TABLE)
       .select('parsed, error')
       .eq('request_text', text)
       .eq('model', model)
+      .eq('reference_date', referenceDate)
       .maybeSingle();
     if (res.error) throw new Error('cache read failed');
     return res.data || null;
   }
 
   // On conflict do nothing, so a parse already cached is never overwritten.
-  async function writeCache(text, parsed, errorText) {
+  async function writeCache(text, referenceDate, parsed, errorText) {
     var res = await supabase
       .from(CACHE_TABLE)
       .upsert(
-        { request_text: text, model: model, parsed: parsed, error: errorText },
-        { onConflict: 'request_text,model', ignoreDuplicates: true }
+        { request_text: text, model: model, reference_date: referenceDate, parsed: parsed, error: errorText },
+        { onConflict: 'request_text,model,reference_date', ignoreDuplicates: true }
       );
     if (res.error) throw new Error('cache write failed');
   }
@@ -247,11 +250,17 @@ function createParser(options) {
       return failure('request_too_long', 'request text exceeds ' + MAX_REQUEST_CHARS + ' characters', false);
     }
 
+    // The reference date is part of the cache key, so it is resolved first.
+    var referenceDate = options.referenceDate || process.env.PARSER_REFERENCE_DATE || new Date().toISOString().slice(0, 10);
+    if (!isRealDate(referenceDate)) {
+      return failure('bad_config', 'PARSER_REFERENCE_DATE must be a real YYYY-MM-DD date', false);
+    }
+
     // 1. Cache lookup. If it cannot be read, do NOT call DeepSeek blindly:
     //    that would break the replay guarantee and spend money unrecorded.
     var cachedRow;
     try {
-      cachedRow = await readCache(text);
+      cachedRow = await readCache(text, referenceDate);
     } catch (e) {
       return failure('cache_unavailable', 'could not read parse_cache; no DeepSeek call made', false);
     }
@@ -269,11 +278,6 @@ function createParser(options) {
     }
 
     // 2. DeepSeek: first attempt + at most ONE retry.
-    var referenceDate = options.referenceDate || process.env.PARSER_REFERENCE_DATE || new Date().toISOString().slice(0, 10);
-    if (!isRealDate(referenceDate)) {
-      return failure('bad_config', 'PARSER_REFERENCE_DATE must be a real YYYY-MM-DD date', false);
-    }
-
     var last = null;
     var attempts = 0;
     while (attempts < MAX_ATTEMPTS) {
@@ -288,7 +292,7 @@ function createParser(options) {
     if (last.ok) {
       var out = { ok: true, parsed: last.parsed, cached: false, meta: last.meta };
       try {
-        await writeCache(text, last.parsed, null);
+        await writeCache(text, referenceDate, last.parsed, null);
       } catch (e) {
         out.meta.cacheWriteFailed = true; // parse is valid, but replay is not guaranteed
       }
@@ -297,7 +301,7 @@ function createParser(options) {
     if (last.kind === 'content') {
       var stored = last.error + (last.detail ? ': ' + last.detail : '');
       try {
-        await writeCache(text, null, stored);
+        await writeCache(text, referenceDate, null, stored);
       } catch (e) {
         last.meta.cacheWriteFailed = true;
       }

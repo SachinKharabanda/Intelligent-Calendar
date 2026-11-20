@@ -18,7 +18,7 @@ function fakeSupabase(opts) {
   opts = opts || {};
   var rows = new Map(); // key "text\u0000model" -> row
   var calls = { reads: 0, writes: 0 };
-  function key(t, m) { return t + '\u0000' + m; }
+  function key(t, m, d) { return t + '\u0000' + m + '\u0000' + d; }
   var db = {
     rows: rows,
     calls: calls,
@@ -32,7 +32,7 @@ function fakeSupabase(opts) {
             maybeSingle: async function () {
               calls.reads += 1;
               if (opts.failRead) return { data: null, error: { message: 'secret db detail' } };
-              var row = rows.get(key(f.request_text, f.model));
+              var row = rows.get(key(f.request_text, f.model, f.reference_date));
               return { data: row ? { parsed: row.parsed, error: row.error } : null, error: null };
             },
           };
@@ -40,9 +40,9 @@ function fakeSupabase(opts) {
         },
         upsert: async function (row, options) {
           calls.writes += 1;
-          assert.deepEqual(options, { onConflict: 'request_text,model', ignoreDuplicates: true });
+          assert.deepEqual(options, { onConflict: 'request_text,model,reference_date', ignoreDuplicates: true });
           if (opts.failWrite) return { error: { message: 'write failed' } };
-          var k = key(row.request_text, row.model);
+          var k = key(row.request_text, row.model, row.reference_date);
           if (!rows.has(k)) rows.set(k, row); // ignoreDuplicates
           return { error: null };
         },
@@ -108,7 +108,7 @@ test('valid parse: returns intent + slots, sends the documented request options,
   assert.match(c.messages[0].content, /json/i); // DeepSeek JSON mode requires the word "json"
   assert.match(c.messages[0].content, /2026-03-02/); // reference date for relative dates
   assert.equal(c.messages[1].content, 'Cancel my 3pm with Sam on 4 March');
-  var row = t.db.rows.get('Cancel my 3pm with Sam on 4 March\u0000' + MODEL);
+  var row = t.db.rows.get('Cancel my 3pm with Sam on 4 March\u0000' + MODEL + '\u00002026-03-02');
   assert.deepEqual(row.parsed, GOOD);
   assert.equal(row.error, null);
 });
@@ -140,7 +140,7 @@ test('new_time may be vague; reschedule with only a new date leaves new_time nul
 
 test('a cached parse from before new_date/new_time existed still validates (missing = null)', async function () {
   var db = fakeSupabase();
-  db.rows.set('old\u0000' + MODEL, { request_text: 'old', model: MODEL, parsed: { intent: 'cancel', slots: { date: '2026-03-04', time: '15:00', person: 'Sam', duration: null } }, error: null });
+  db.rows.set('old\u0000' + MODEL + '\u00002026-03-02', { request_text: 'old', model: MODEL, reference_date: '2026-03-02', parsed: { intent: 'cancel', slots: { date: '2026-03-04', time: '15:00', person: 'Sam', duration: null } }, error: null });
   var client = fakeClient([JSON.stringify(GOOD)]);
   var p = createParser({ client: client, supabase: db, model: MODEL, referenceDate: '2026-03-02' });
   var r = await p.parseRequest('old');
@@ -175,6 +175,22 @@ test('cache is keyed by model: another model misses', async function () {
   assert.equal(db.rows.size, 2);
 });
 
+test('cache is keyed by reference date: the same text on another day misses and is parsed again', async function () {
+  var db = fakeSupabase();
+  var c1 = fakeClient([JSON.stringify(GOOD)]);
+  var c2 = fakeClient([JSON.stringify(GOOD)]);
+  var day1 = createParser({ client: c1, supabase: db, model: MODEL, referenceDate: '2026-03-02' });
+  var day2 = createParser({ client: c2, supabase: db, model: MODEL, referenceDate: '2026-03-03' });
+  await day1.parseRequest('book tomorrow');
+  var same = await day1.parseRequest('book tomorrow');
+  var next = await day2.parseRequest('book tomorrow');
+  assert.equal(same.cached, true);
+  assert.equal(next.cached, false);
+  assert.equal(c2.calls.length, 1);
+  assert.equal(db.rows.size, 2);
+  assert.match(c2.calls[0].messages[0].content, /2026-03-03/);
+});
+
 test('cached failure is replayed without a DeepSeek call', async function () {
   var t = make(['not json', 'not json']);
   var first = await t.p.parseRequest('bad');
@@ -198,7 +214,7 @@ test('cached failure with detail round-trips code and detail', async function ()
 
 test('corrupt cached parse is a failure, not an action, and is not overwritten', async function () {
   var db = fakeSupabase();
-  db.rows.set('req\u0000' + MODEL, { request_text: 'req', model: MODEL, parsed: { intent: 'delete_everything', slots: {} }, error: null });
+  db.rows.set('req\u0000' + MODEL + '\u00002026-03-02', { request_text: 'req', model: MODEL, reference_date: '2026-03-02', parsed: { intent: 'delete_everything', slots: {} }, error: null });
   var client = fakeClient([JSON.stringify(GOOD)]);
   var p = createParser({ client: client, supabase: db, model: MODEL, referenceDate: '2026-03-02' });
   var r = await p.parseRequest('req');
@@ -235,8 +251,8 @@ test('blank content: one retry, then cached failure', async function () {
   assert.equal(r.error, 'blank_content');
   assert.equal(t.client.calls.length, 2);
   assert.equal(r.meta.attempts, 2);
-  assert.equal(t.db.rows.get('req\u0000' + MODEL).error, 'blank_content');
-  assert.equal(t.db.rows.get('req\u0000' + MODEL).parsed, null);
+  assert.equal(t.db.rows.get('req\u0000' + MODEL + '\u00002026-03-02').error, 'blank_content');
+  assert.equal(t.db.rows.get('req\u0000' + MODEL + '\u00002026-03-02').parsed, null);
 });
 
 test('blank content then good content on retry: succeeds', async function () {
