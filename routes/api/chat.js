@@ -4,8 +4,9 @@ var express = require('express');
 // POST /api/chat/reply  { "text": "...", "state": {...} }  -> result
 // `result` is defined in src/chat.js: { status: 'done'|'ask'|'not_found'|'gave_up'|'parse_error',
 // message | question, state (on 'ask'), action (on 'done'), trace }. The client keeps `state`
-// between an ASK and the reply (the server is stateless). Status: Implemented, checked
-// offline with fakes only; not yet run against live DeepSeek / Supabase.
+// between an ASK and the reply (the server is stateless). Status: Implemented; offline tests
+// with fakes, and run live against DeepSeek / Supabase on 2026-11-20 (create, cancel,
+// reschedule, ask/reply, vague time, not-found, give-up; each scenario run once).
 
 var MAX_TEXT = 500;
 

@@ -3,20 +3,20 @@
 A2 project for Intelligent Interactive Systems: an appointment-booking assistant that decides when to ask a clarifying question and when to act. Two clarification policies (K, T) will be compared in one codebase.
 
 ## Project status
-In progress. Not finished: the policies and the experiment are not built yet.
+In progress. Built: parser, scorer, ambiguity detection, policies K, K2 and T, chat API, simulation harness, and one run of the experiment (see table). Not built: UI, deployment, survey.
 
 | Part | Status | Note |
 |---|---|---|
 | Express + EJS app (`GET /`, `GET /api/health`) | Implemented | Placeholder page only |
-| Appointments API (`/api/appointments`) | Implemented | Not yet run against the live database |
+| Appointments API (`/api/appointments`) | Implemented | Live-checked 2026-11-20 against Supabase: GET, POST (valid and rejected input) and DELETE, each run once; the PUT route was not called live |
 | Shared DeepSeek parser (`src/parser.js`) | Implemented | Live-checked on one request; see below |
 | Parse cache (Supabase `parse_cache`) | Implemented | Live-checked; see below |
-| Other Supabase tables (`appointments`, `simulation_logs`) | Created | Not used or checked live yet |
-| Chat flow (`/api/chat`, `/api/chat/reply`; `src/chat.js`, `src/calendar.js`) | Implemented | Offline tests with fakes only; never run against live DeepSeek or Supabase; no UI (to be designed) |
+| Other Supabase tables (`appointments`, `simulation_logs`) | Created | `appointments` used live 2026-11-20 (insert, update, delete, read); `simulation_logs` deliberately unused (results go to `results/`) |
+| Chat flow (`/api/chat`, `/api/chat/reply`; `src/chat.js`, `src/calendar.js`) | Implemented | Offline tests with fakes, plus live runs on 2026-11-20 against real DeepSeek and Supabase (policy K2; each scenario run once): create, cancel, reschedule (full and missing destination), ambiguous cancel with a "3pm" reply, vague time, not-found, give-up after 2 questions, invalid input. Policy T live on the vague-time case only. Not run live: reschedule with several matches, intent conflicts, relative dates like "tomorrow" (live cache issue below), Vercel. No UI (to be designed) |
 | Hypothesis scorer (`src/scorer.js`) | Implemented | Offline tests only; weights fixed, not yet tried on real requests |
 | Ambiguity detection (`src/ambiguity.js`) | Implemented | Offline tests only; four types (intent, multi-match, missing slot, time expression) |
-| Decision features, Policy K, Policy T, template questions, ACT (`src/features.js`, `src/policies/`, `src/questions.js`, `src/actions.js`) | Implemented | Offline tests only; weights and thetas are untuned starting values; not run on any real request |
-| Simulation harness (`simulation/`) and fixture | Implemented | Offline tests only; never run with the real parser |
+| Decision features, Policy K, Policy T, template questions, ACT (`src/features.js`, `src/policies/`, `src/questions.js`, `src/actions.js`) | Implemented | Offline tests; run on the 60 labelled requests with the real parser (2026-11-19, see results row) and live in the chat flow (2026-11-20); weights and thetas are hand-set starting values, K revised once to K2 |
+| Simulation harness (`simulation/`) and fixture | Implemented | Offline tests; run with the real parser on the dev and test sets (2026-11-19) |
 | Labelled dev and test sets (30 + 30) | Reviewed (flag set 2026-11-19), not yet committed | AI-drafted, then reviewed by me. The dev runs below happened BEFORE these files were committed, so git order does not prove pre-registration; the contents are unchanged since generation (checked 2026-11-19) |
 | Simulation results | Done once (2026-11-19) | Dev and held-out test sets run once each for K (theta 4), K2 (K with TIME_EXPR weight 4) and T (theta 0.5); files in `results/`, not yet committed. The test set was run before it was committed (see status row above) |
 | User survey | Planned | Not started |
@@ -28,14 +28,14 @@ Express.js (API and EJS-rendered UI), Supabase (Postgres; server-side client con
 ## How to run
 Node 26 was used. npm install, copy .env.example to .env and fill in your own keys, then npm start (or npm run dev) and open http://localhost:3000. `npm test` runs the offline tests (parser, scorer, ambiguity, policies, chat flow, simulation harness) (no keys or network needed).
 
-## Policies, chat API and experiment (all offline-tested only)
+## Policies, chat API and experiment (offline-tested; experiment run 2026-11-19; chat flow live-checked 2026-11-20, see status table)
 - **Shared pipeline:** parser -> scorer -> ambiguity detection -> shared executability pre-check -> policy. A request missing a required slot always asks, for both policies. Nothing matching on the calendar gives "not found" (no ask, no act). Only then does the policy decide.
 - **Policy K:** ask if w·f >= theta, with hand-set weights and theta = 4 (starting values, tuned once on the dev set; not trained). Features: low top score, low margin, the four ambiguity bits, incompleteness, action risk (cancel 1, reschedule 0.5, create 0). The repeated-request flag was dropped (always 0 in single-turn runs).
 - **Policy T:** ask if the entropy (natural log) of the softmax over the hypothesis scores is >= theta = 0.5 (starting value). It reads only the scores, so it cannot see vague times or intent conflicts; this is a finding, not a bug. The entropy is over my own scoring function, not the LLM's uncertainty.
 - **Revised K ("K2"):** after the first dev run I allowed ONE revision to K: the TIME_EXPR weight goes from 3 to 4 (nothing else changes), because two vague-time requests scored just under theta while a clear request scored just over it. K2 is its own policy so original K, K2 and T can be compared on the held-out set. Original K is unchanged.
 - **Controls:** `ALWAYS` (always ask) and `NEVER` (never ask) are baseline policies for the harness only (`--policy ALWAYS|NEVER`); the shared pre-check still applies to them, so "never ask" still asks about a missing required slot. The app cannot select them.
 - **Select a policy** for the app with `CLARIFICATION_POLICY=K|K2|T` (no default).
-- **Chat API (no UI yet):** `POST /api/chat {"text"}` and `POST /api/chat/reply {"text","state"}` return `{status: done|ask|not_found|gave_up|parse_error, message|question, state (on ask), action, trace}`. The server is stateless: the client sends back the `state` it was given. At most 2 clarifying questions, then "gave up".
+- **Chat API (no UI yet; live-checked once per scenario on 2026-11-20, see status table):** `POST /api/chat {"text"}` and `POST /api/chat/reply {"text","state"}` return `{status: done|ask|not_found|gave_up|parse_error, message|question, state (on ask), action, trace}`. The server is stateless: the client sends back the `state` it was given. At most 2 clarifying questions, then "gave up".
 - **Experiment:** `node simulation/run.js --set dev|test --policy K|K2|T|ALWAYS|NEVER [--theta N]` replays a scripted labelled set (turn 1 only; an ask is assumed resolved; actions are planned and compared with the labels, never executed) and writes `results/`. It refuses to run until the set is marked `reviewed_by_student: true` and `PARSER_REFERENCE_DATE` equals `simulation/fixture.json` (`2026-11-23`). It makes real DeepSeek calls the first time a request text is seen (then cached).
 
 ## Parser configuration

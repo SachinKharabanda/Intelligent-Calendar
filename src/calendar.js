@@ -1,7 +1,8 @@
 // Calendar data access for the live app: list appointments and execute an action plan
 // (src/actions.js). Server-side only, through the Supabase service client.
-// STATUS: Implemented, checked only against an in-memory fake (test/calendar.test.js);
-// NOT yet run against the live Supabase project.
+// STATUS: Implemented. Offline tests against an in-memory fake (test/calendar.test.js), and
+// run once live against the Supabase project on 2026-11-20 (list, create, cancel, reschedule
+// through the chat flow, each scenario run once).
 //
 // Errors are rethrown with a generic message so database details never reach the client.
 
