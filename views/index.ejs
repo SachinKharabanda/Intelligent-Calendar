@@ -1,11 +1,78 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <main class="app">
+
+    <header class="panel topbar">
+      <h1 id="month-title" aria-live="polite">&nbsp;</h1>
+      <div class="topbar-actions">
+        <button type="button" class="pill-btn" id="today-btn">Today</button>
+        <button type="button" class="icon-btn" id="prev-month" aria-label="Previous month">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <button type="button" class="icon-btn" id="next-month" aria-label="Next month">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <section class="left">
+        <div class="panel calendar" aria-label="Month calendar">
+          <div class="weekdays" aria-hidden="true">
+            <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span class="weekend">SAT</span><span class="weekend">SUN</span>
+          </div>
+          <div class="grid" id="grid" role="grid"></div>
+        </div>
+
+        <div class="panel agenda" aria-label="Day schedule">
+          <div class="agenda-head">
+            <h2><span class="dot" id="agenda-dot"></span><span id="agenda-title"></span></h2>
+            <span class="mono muted" id="agenda-count"></span>
+          </div>
+          <div class="events" id="events"></div>
+        </div>
+      </section>
+
+      <aside class="panel chat" id="chat" aria-label="AI assistant">
+        <div class="chat-head">
+          <h2>AI Assistant</h2>
+          <button type="button" class="icon-btn" id="chat-toggle" aria-label="Collapse assistant" aria-expanded="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </div>
+        <div class="chat-body" id="chat-body">
+          <div class="thread" id="thread" aria-live="polite">
+            <div class="msg assistant">
+              <div class="meta"><span class="who">Assistant</span></div>
+              <div class="bubble">Tell me what to book, move or cancel, for example &ldquo;Book a meeting with Sarah tomorrow at 3pm&rdquo;. If your request is unclear I will ask before changing your calendar.</div>
+            </div>
+          </div>
+          <form class="composer" id="composer" autocomplete="off">
+            <div class="pending hidden" id="pending">
+              <span>Waiting for your answer</span>
+              <button type="button" id="skip-question">Start a new request</button>
+            </div>
+            <div class="field">
+              <input id="chat-input" type="text" maxlength="500" placeholder="Book, move or cancel an appointment…" aria-label="Message the assistant">
+              <button type="submit" class="send" id="send" aria-label="Send">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+              </button>
+            </div>
+          </form>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <script src="/javascripts/chat.js"></script>
+</body>
 </html>
