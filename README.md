@@ -3,16 +3,16 @@
 A2 project for Intelligent Interactive Systems: an appointment-booking assistant that decides when to ask a clarifying question and when to act. Two clarification policies (K, T) will be compared in one codebase.
 
 ## Project status
-In progress. Built: parser, scorer, ambiguity detection, policies K, K2 and T, chat API, simulation harness, and one run of the experiment (see table). Not built: UI, deployment, survey.
+In progress. Built: parser, scorer, ambiguity detection, policies K, K2 and T, chat API, simulation harness, and one run of the experiment (see table). Deployed on Vercel (see table). Not built: survey.
 
 | Part | Status | Note |
 |---|---|---|
-| Express + EJS app (`GET /`, `GET /api/health`) | Implemented | Placeholder page only |
+| Express + EJS app (`GET /`, `GET /api/health`) | Implemented | Serves the calendar and chat page (`views/index.ejs`, plain CSS and JS) with a cookie/AI notice; deployed (see Vercel row). Page not checked in a browser by the agent |
 | Appointments API (`/api/appointments`) | Implemented | Live-checked 2026-11-20 against Supabase: GET, POST (valid and rejected input) and DELETE, each run once; the PUT route was not called live |
 | Shared DeepSeek parser (`src/parser.js`) | Implemented | Live-checked on one request; see below |
 | Parse cache (Supabase `parse_cache`) | Implemented | Live-checked; see below |
 | Other Supabase tables (`appointments`, `simulation_logs`) | Created | `appointments` used live 2026-11-20 (insert, update, delete, read); `simulation_logs` deliberately unused (results go to `results/`) |
-| Chat flow (`/api/chat`, `/api/chat/reply`; `src/chat.js`, `src/calendar.js`) | Implemented | Offline tests with fakes, plus live runs on 2026-11-20 against real DeepSeek and Supabase (policy K2; each scenario run once): create, cancel, reschedule (full and missing destination), ambiguous cancel with a "3pm" reply, vague time, not-found, give-up after 2 questions, invalid input. Policy T live on the vague-time case only. Not run live: reschedule with several matches, intent conflicts, relative dates like "tomorrow" (live cache issue below), Vercel. No UI (to be designed) |
+| Chat flow (`/api/chat`, `/api/chat/reply`; `src/chat.js`, `src/calendar.js`) | Implemented | Offline tests with fakes, plus live runs on 2026-11-20 against real DeepSeek and Supabase (policy K2; each scenario run once): create, cancel, reschedule (full and missing destination), ambiguous cancel with a "3pm" reply, vague time, not-found, give-up after 2 questions, invalid input. Policy T live on the vague-time case only. Not run live: reschedule with several matches, intent conflicts, relative dates like "tomorrow" (live cache issue below). On Vercel: one request only (not_found, policy K2); no ask/act path run there. Front end exists (see first row) |
 | Hypothesis scorer (`src/scorer.js`) | Implemented | Offline tests only; weights fixed, not yet tried on real requests |
 | Ambiguity detection (`src/ambiguity.js`) | Implemented | Offline tests only; four types (intent, multi-match, missing slot, time expression) |
 | Decision features, Policy K, Policy T, template questions, ACT (`src/features.js`, `src/policies/`, `src/questions.js`, `src/actions.js`) | Implemented | Offline tests; run on the 60 labelled requests with the real parser (2026-11-19, see results row) and live in the chat flow (2026-11-20); weights and thetas are hand-set starting values, K revised once to K2 |
@@ -20,7 +20,7 @@ In progress. Built: parser, scorer, ambiguity detection, policies K, K2 and T, c
 | Labelled dev and test sets (30 + 30) | Reviewed (flag set 2026-11-19), not yet committed | AI-drafted, then reviewed by me. The dev runs below happened BEFORE these files were committed, so git order does not prove pre-registration; the contents are unchanged since generation (checked 2026-11-19) |
 | Simulation results | Done once (2026-11-19) | Dev and held-out test sets run once each for K (theta 4), K2 (K with TIME_EXPR weight 4) and T (theta 0.5); files in `results/`, not yet committed. The test set was run before it was committed (see status row above) |
 | User survey | Planned | Not started |
-| Vercel deployment | Planned | Config written, never deployed |
+| Vercel deployment | Implemented | Deployed 2026-11-24 at https://intelligent-calendar-ft8d.vercel.app/ (env vars set in Vercel project settings; Supabase integration not used). Checked once: `/api/health` 200, `/` 200, `/api/appointments` 200 (live Supabase read), and one `POST /api/chat` ("Cancel my appointment tomorrow", empty session) returned `not_found` with `trace.policy` K2, so DeepSeek and the policy variable work in production. An ask/act path on the deployed site has not been run |
 
 ## Technology stack
 Express.js (API and EJS-rendered UI), Supabase (Postgres; server-side client configured), Vercel (hosting), DeepSeek API (parser only; model `deepseek-flash`).
