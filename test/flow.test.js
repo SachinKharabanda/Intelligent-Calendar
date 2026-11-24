@@ -295,18 +295,40 @@ function fakeSupabase(handler) {
 }
 function opNames(b) { return b.ops.map(function (o) { return o[0]; }); }
 
-test('calendar.list orders by date then time; execute maps each plan to one write', async function () {
+test('calendar.list orders by date then time; every read and write is scoped to the session', async function () {
   var seen = [];
   var cal = calendarModule.createCalendar(fakeSupabase(function (b) { seen.push(b); return { data: [{ id: 'x' }], error: null }; }));
-  assert.deepEqual(await cal.list(), [{ id: 'x' }]);
-  assert.deepEqual(opNames(seen[0]), ['select', 'order', 'order']);
+  assert.deepEqual(await cal.list('S1'), [{ id: 'x' }]);
+  assert.deepEqual(opNames(seen[0]), ['select', 'eq', 'order', 'order']);
+  assert.deepEqual(seen[0].ops[1], ['eq', 'session_id', 'S1']);
 
-  await cal.execute({ type: 'create', appointment: { title: 'T', date: '2026-11-27', start_time: '14:00', source: 'app' } });
+  await cal.execute({ type: 'create', appointment: { title: 'T', date: '2026-11-27', start_time: '14:00', source: 'app' } }, 'S1');
   assert.deepEqual(opNames(seen[1]), ['insert', 'select', 'single']);
-  await cal.execute({ type: 'cancel', appointment_id: 'a' });
-  assert.deepEqual(seen[2].ops, [['delete'], ['eq', 'id', 'a']]);
-  await cal.execute({ type: 'reschedule', appointment_id: 'a', changes: { start_time: '11:30' } });
-  assert.deepEqual(seen[3].ops, [['update', { start_time: '11:30' }], ['eq', 'id', 'a']]);
+  assert.equal(seen[1].ops[0][1].session_id, 'S1');
+  await cal.execute({ type: 'cancel', appointment_id: 'a' }, 'S1');
+  assert.deepEqual(seen[2].ops, [['delete'], ['eq', 'id', 'a'], ['eq', 'session_id', 'S1']]);
+  await cal.execute({ type: 'reschedule', appointment_id: 'a', changes: { start_time: '11:30' } }, 'S1');
+  assert.deepEqual(seen[3].ops, [['update', { start_time: '11:30' }], ['eq', 'id', 'a'], ['eq', 'session_id', 'S1']]);
+});
+
+test('session middleware: issues a UUID cookie once, reuses a valid one, replaces a bad one', async function () {
+  var session = require('../src/session');
+  function run(cookie) {
+    var req = { cookies: cookie === undefined ? {} : { ic_session: cookie } }, set = null;
+    session.middleware(req, { cookie: function (n, v, o) { set = { n: n, v: v, o: o }; } }, function () {});
+    return { id: req.sessionId, set: set };
+  }
+  var fresh = run();
+  assert.match(fresh.id, /^[0-9a-f-]{36}$/);
+  assert.equal(fresh.set.n, 'ic_session');
+  assert.equal(fresh.set.o.httpOnly, true);
+  assert.equal(fresh.set.o.sameSite, 'lax');
+  var again = run(fresh.id);
+  assert.equal(again.id, fresh.id);
+  assert.equal(again.set, null);
+  var bad = run('not-a-uuid');
+  assert.notEqual(bad.id, 'not-a-uuid');
+  assert.ok(bad.set);
 });
 
 test('calendar errors are generic (no database detail leaks); unknown plan throws', async function () {

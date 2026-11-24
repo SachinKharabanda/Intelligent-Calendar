@@ -38,13 +38,13 @@ function createChatRouter(getService) {
   router.post('/', function (req, res) {
     var text = cleanText(req.body && req.body.text);
     if (!text) return res.status(400).json({ error: 'text must be a non-empty string of at most ' + MAX_TEXT + ' characters.' });
-    run(res, function () { return getService().start(text); });
+    run(res, function () { return getService().start(text, req.sessionId); });
   });
 
   router.post('/reply', function (req, res) {
     var text = cleanText(req.body && req.body.text);
     if (!text) return res.status(400).json({ error: 'text must be a non-empty string of at most ' + MAX_TEXT + ' characters.' });
-    run(res, function () { return getService().reply(req.body.state, text); });
+    run(res, function () { return getService().reply(req.body.state, text, req.sessionId); });
   });
 
   return router;

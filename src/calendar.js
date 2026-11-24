@@ -12,26 +12,28 @@ function fail(what) {
   return new Error('Calendar ' + what + ' failed.');
 }
 
-// createCalendar(supabase) -> { list(), execute(plan) }
+// createCalendar(supabase) -> { list(sessionId), execute(plan, sessionId) }
+// Every read and write is scoped to the visitor's session_id (src/session.js).
 function createCalendar(supabase) {
   return {
-    list: async function () {
+    list: async function (sessionId) {
       var r = await supabase
         .from('appointments')
         .select(COLUMNS)
+        .eq('session_id', sessionId)
         .order('date', { ascending: true })
         .order('start_time', { ascending: true });
       if (r.error) throw fail('read');
       return r.data || [];
     },
-    execute: async function (plan) {
+    execute: async function (plan, sessionId) {
       var r;
       if (plan.type === 'create') {
-        r = await supabase.from('appointments').insert(plan.appointment).select(COLUMNS).single();
+        r = await supabase.from('appointments').insert(Object.assign({}, plan.appointment, { session_id: sessionId })).select(COLUMNS).single();
       } else if (plan.type === 'cancel') {
-        r = await supabase.from('appointments').delete().eq('id', plan.appointment_id);
+        r = await supabase.from('appointments').delete().eq('id', plan.appointment_id).eq('session_id', sessionId);
       } else if (plan.type === 'reschedule') {
-        r = await supabase.from('appointments').update(plan.changes).eq('id', plan.appointment_id);
+        r = await supabase.from('appointments').update(plan.changes).eq('id', plan.appointment_id).eq('session_id', sessionId);
       } else {
         throw new TypeError('Unknown action type.');
       }

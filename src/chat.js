@@ -47,8 +47,8 @@ function createChatService(deps) {
     return t;
   }
 
-  async function handle(parsed, asks) {
-    var appointments = await calendar.list();
+  async function handle(parsed, asks, sessionId) {
+    var appointments = await calendar.list(sessionId);
     var d = pipeline.decide(parsed, appointments, policy);
 
     if (d.decision === 'not_found') {
@@ -67,7 +67,7 @@ function createChatService(deps) {
       };
     }
     var plan = actions.planAction(parsed, d.scored, { source: source });
-    await calendar.execute(plan);
+    await calendar.execute(plan, sessionId);
     return { status: 'done', message: actions.confirmationText(plan, appointments), action: plan, trace: trace(d) };
   }
 
@@ -77,19 +77,19 @@ function createChatService(deps) {
 
   return {
     // start(text) -> result
-    start: async function (text) {
+    start: async function (text, sessionId) {
       var r = await parser.parseRequest(text);
       if (!r.ok) return parseFailure(r);
-      return handle(r.parsed, 0);
+      return handle(r.parsed, 0, sessionId);
     },
     // reply(state, text) -> result; throws TypeError on an invalid state
-    reply: async function (state, text) {
+    reply: async function (state, text, sessionId) {
       var st = cleanState(state);
       if (!st) throw new TypeError('Invalid conversation state.');
       var r = await parser.parseRequest(text);
       if (!r.ok) return parseFailure(r);
       var merged = replies.mergeReply(st.parsed, st.asked.focus, r.parsed);
-      return handle(merged, st.asks);
+      return handle(merged, st.asks, sessionId);
     },
   };
 }

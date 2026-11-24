@@ -22,6 +22,7 @@ create table if not exists public.appointments (
   start_time       time not null,                 -- end time derived: start_time + duration_minutes
   duration_minutes integer not null default 60 check (duration_minutes > 0),
   source           text not null default 'app',   -- 'app' = UI/survey, 'simulation' = seeded by harness
+  session_id       uuid,                          -- anonymous visitor cookie (src/session.js); added 2026-11-23, see supabase/migrations/
   created_at       timestamptz not null default now()
 );
 

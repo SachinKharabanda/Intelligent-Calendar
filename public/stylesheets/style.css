@@ -198,3 +198,8 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+
+/* Cookie notice (footer) */
+.cookie-note { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem 1.5rem; font-size: .75rem; line-height: 1.5; color: var(--muted); }
+.cookie-note strong { color: var(--on-surface); font-weight: 600; }
+.cookie-note code { font-family: var(--mono); }

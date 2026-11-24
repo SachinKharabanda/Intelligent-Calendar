@@ -90,7 +90,7 @@ router.get('/', async function (req, res) {
     return res.status(400).json({ errors: ['person must be a non-empty string.'] });
   }
   try {
-    var query = supabase.from('appointments').select(COLUMNS);
+    var query = supabase.from('appointments').select(COLUMNS).eq('session_id', req.sessionId);
     if (q.date !== undefined) query = query.eq('date', q.date);
     if (q.person !== undefined) query = query.eq('person', q.person.trim());
     var r = await query.order('date').order('start_time');
@@ -106,7 +106,7 @@ router.post('/', async function (req, res) {
   var result = validate(req.body, false);
   if (result.errors) return res.status(400).json({ errors: result.errors });
   try {
-    var r = await supabase.from('appointments').insert(result.values).select(COLUMNS).single();
+    var r = await supabase.from('appointments').insert(Object.assign({}, result.values, { session_id: req.sessionId })).select(COLUMNS).single();
     if (r.error) return dbFailure(res, r.error);
     res.status(201).json(r.data);
   } catch (e) {
@@ -124,6 +124,7 @@ router.put('/:id', async function (req, res) {
       .from('appointments')
       .update(result.values)
       .eq('id', req.params.id)
+      .eq('session_id', req.sessionId)
       .select(COLUMNS)
       .maybeSingle();
     if (r.error) return dbFailure(res, r.error);
@@ -142,6 +143,7 @@ router.delete('/:id', async function (req, res) {
       .from('appointments')
       .delete()
       .eq('id', req.params.id)
+      .eq('session_id', req.sessionId)
       .select(COLUMNS)
       .maybeSingle();
     if (r.error) return dbFailure(res, r.error);
